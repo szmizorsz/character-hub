@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -11,6 +11,7 @@ contract Bridge is Ownable, ERC721Holder {
         address contractAddress;
         uint256 tokenId;
         address owner;
+        bool withLocking;
     }
 
     uint256 public id;
@@ -21,12 +22,15 @@ contract Bridge is Ownable, ERC721Holder {
         address contractAddress,
         uint256 tokenId,
         address owner,
-        string tokenURI
+        string tokenURI,
+        bool withLocking
     );
 
-    function depositWithLocking(address _contractAddress, uint256 _tokenId)
-        public
-    {
+    function deposit(
+        address _contractAddress,
+        uint256 _tokenId,
+        bool withLocking
+    ) public {
         ERC721 erc721Contract = ERC721(_contractAddress);
         require(erc721Contract.ownerOf((_tokenId)) == msg.sender, "only owner");
 
@@ -34,12 +38,27 @@ contract Bridge is Ownable, ERC721Holder {
         token.contractAddress = _contractAddress;
         token.tokenId = _tokenId;
         token.owner = msg.sender;
+        token.withLocking = withLocking;
         allDepositsById[id] = token;
 
-        erc721Contract.safeTransferFrom(msg.sender, address(this), _tokenId);
         string memory tokenURI = erc721Contract.tokenURI(_tokenId);
 
-        emit TokenDeposit(id, _contractAddress, _tokenId, msg.sender, tokenURI);
+        if (withLocking) {
+            erc721Contract.safeTransferFrom(
+                msg.sender,
+                address(this),
+                _tokenId
+            );
+        }
+
+        emit TokenDeposit(
+            id,
+            _contractAddress,
+            _tokenId,
+            msg.sender,
+            tokenURI,
+            withLocking
+        );
         id++;
     }
 }

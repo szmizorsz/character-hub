@@ -27,9 +27,9 @@ describe("Bridge deposit test", function () {
 
     it("Should desposit NFT with locking to the bridge", async function () {
         await erc721Mock.connect(nftOwner).approve(bridge.address, originalTokenId);
-        await expect(bridge.connect(nftOwner).depositWithLocking(erc721Mock.address, originalTokenId))
+        await expect(bridge.connect(nftOwner).deposit(erc721Mock.address, originalTokenId, true))
             .to.emit(bridge, 'TokenDeposit')
-            .withArgs(0, erc721Mock.address, originalTokenId, nftOwner.address, tokenURI);
+            .withArgs(0, erc721Mock.address, originalTokenId, nftOwner.address, tokenURI, true);
 
         let newOwner = await erc721Mock.ownerOf(originalTokenId);
         expect(newOwner).to.equal(bridge.address);
@@ -41,5 +41,25 @@ describe("Bridge deposit test", function () {
         expect(depositedToken.contractAddress).to.equal(erc721Mock.address);
         expect(depositedToken.tokenId).to.equal(originalTokenId);
         expect(depositedToken.owner).to.equal(nftOwner.address);
+        expect(depositedToken.withLocking).to.equal(true);
+    });
+
+
+    it("Should desposit NFT without locking to the bridge", async function () {
+        await expect(bridge.connect(nftOwner).deposit(erc721Mock.address, originalTokenId, false))
+            .to.emit(bridge, 'TokenDeposit')
+            .withArgs(0, erc721Mock.address, originalTokenId, nftOwner.address, tokenURI, false);
+
+        let newOwner = await erc721Mock.ownerOf(originalTokenId);
+        expect(newOwner).to.equal(nftOwner.address);
+
+        let actualBridgeId = await bridge.id();
+        expect(actualBridgeId).to.equal(1);
+
+        let depositedToken = await bridge.allDepositsById(0);
+        expect(depositedToken.contractAddress).to.equal(erc721Mock.address);
+        expect(depositedToken.tokenId).to.equal(originalTokenId);
+        expect(depositedToken.owner).to.equal(nftOwner.address);
+        expect(depositedToken.withLocking).to.equal(false);
     });
 });
