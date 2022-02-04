@@ -21,8 +21,35 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function MenuBar() {
+function MenuBar({ web3Modal, logoutOfWeb3Modal, connectWallet }) {
     const classes = useStyles();
+
+    const modalButtons = [];
+    if (web3Modal) {
+        if (web3Modal.cachedProvider) {
+            modalButtons.push(
+                <Button
+                    onClick={logoutOfWeb3Modal}
+                    variant="outlined"
+                    color="inherit"
+                    fullWidth
+                    type="submit">
+                    Logout
+                </Button>
+            );
+        } else {
+            modalButtons.push(
+                <Button
+                    onClick={connectWallet}
+                    variant="outlined"
+                    color="inherit"
+                    fullWidth
+                    type="submit">
+                    Connect Wallet
+                </Button>
+            );
+        }
+    }
 
     return (
         <AppBar position="fixed" className={classes.header}>
@@ -59,7 +86,7 @@ function MenuBar() {
 
                             <Grid item md={4}>
                                 <Box mt={0.3} ml={5}>
-                                    <Button color="inherit" variant="outlined" fullWidth component={Link} to="/">Connect Wallet</Button>
+                                    {modalButtons}
                                 </Box>
                             </Grid>
                         </Grid>
