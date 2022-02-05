@@ -28,9 +28,8 @@ describe("Field test", function () {
     it("Should create a field", async function () {
         let fieldName = "ethemerals field";
         let fieldSymbol = "MERALF";
-        let fieldURL = "http://image";
 
-        await fieldManager.connect(account2).createField(fieldName, fieldSymbol, fieldURL);
+        await fieldManager.connect(account2).createField(fieldName, fieldSymbol);
 
         let fieldAddress = await fieldManager.fields(0);
         let field = await ethers.getContractAt("Field", fieldAddress);
@@ -40,8 +39,6 @@ describe("Field test", function () {
         expect(name).to.equal(fieldName);
         let symbol = await field.symbol();
         expect(symbol).to.equal(fieldSymbol);
-        let url = await field.fieldImageURL();
-        expect(url).to.equal(fieldURL);
         let nrOfFields = await fieldManager.nrOfFields();
         expect(nrOfFields).to.equal(1);
     });
@@ -49,9 +46,8 @@ describe("Field test", function () {
     it("Should set allowed contracts", async function () {
         let fieldName = "ethemerals field";
         let fieldSymbol = "MERALF";
-        let fieldURL = "http://image";
 
-        await fieldManager.connect(account2).createField(fieldName, fieldSymbol, fieldURL);
+        await fieldManager.connect(account2).createField(fieldName, fieldSymbol);
 
         let fieldAddress = await fieldManager.fields(0);
         let field = await ethers.getContractAt("Field", fieldAddress);
@@ -61,22 +57,23 @@ describe("Field test", function () {
         await field.connect(account2).setAllowedContract(ethemerals.address, true);
         isEthemeralAllowed = await field.allowedContracts(ethemerals.address);
         expect(isEthemeralAllowed).to.equal(true);
+        let allowedContractsArray = await field.getAllowedContracts();
+        expect(allowedContractsArray.length).to.equal(1);
 
-        let isAllContractAllowed = await field.allContractsAllowed();
-        expect(isAllContractAllowed).to.equal(false);
-        await field.connect(account2).setAllContractsAllowed(true);
         // let isAllContractAllowed = await field.allContractsAllowed();
         // expect(isAllContractAllowed).to.equal(false);
-        isAllContractAllowed = await field.allContractsAllowed();
-        expect(isAllContractAllowed).to.equal(true);
+        // await field.connect(account2).setAllContractsAllowed(true);
+        // let isAllContractAllowed = await field.allContractsAllowed();
+        // expect(isAllContractAllowed).to.equal(false);
+        // isAllContractAllowed = await field.allContractsAllowed();
+        // expect(isAllContractAllowed).to.equal(true);
     });
 
     it("Should mint player", async function () {
         let fieldName = "ethemerals field";
         let fieldSymbol = "MERALF";
-        let fieldURL = "http://image";
 
-        await fieldManager.connect(account2).createField(fieldName, fieldSymbol, fieldURL);
+        await fieldManager.connect(account2).createField(fieldName, fieldSymbol);
 
         let fieldAddress = await fieldManager.fields(0);
         let field = await ethers.getContractAt("Field", fieldAddress);

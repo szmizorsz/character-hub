@@ -13,17 +13,10 @@ contract FieldManager {
         tokenProxy = TokenProxy(_tokenProxy);
     }
 
-    function createField(
-        string memory fieldName,
-        string memory fieldSymbol,
-        string memory fieldImageURL
-    ) public {
-        Field field = new Field(
-            address(tokenProxy),
-            fieldName,
-            fieldSymbol,
-            fieldImageURL
-        );
+    function createField(string memory fieldName, string memory fieldSymbol)
+        public
+    {
+        Field field = new Field(address(tokenProxy), fieldName, fieldSymbol);
         fields.push(field);
         field.transferOwnership(msg.sender);
     }

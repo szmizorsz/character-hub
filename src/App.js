@@ -9,7 +9,8 @@ import {
 } from "react-router-dom";
 import DepositedNfts from './pages/DepositedNfts.js';
 import TokenProxies from './pages/TokenProxies.js';
-import Home from './pages/Home.js'
+import Home from './pages/Home.js';
+import Fields from './pages/Fields.js';
 import { ethers } from "ethers";
 import Web3Modal from "web3modal";
 
@@ -66,6 +67,17 @@ function App() {
                 <Grid item xs={12} md={8}>
                   <Box mt={10}>
                     <TokenProxies injectedProvider={injectedProvider} />
+                  </Box>
+                </Grid>
+                <Grid item md={2}></Grid>
+              </Grid>
+            </Route>
+            <Route path="/fields">
+              <Grid container>
+                <Grid item md={2}></Grid>
+                <Grid item xs={12} md={8}>
+                  <Box mt={10}>
+                    <Fields injectedProvider={injectedProvider} />
                   </Box>
                 </Grid>
                 <Grid item md={2}></Grid>

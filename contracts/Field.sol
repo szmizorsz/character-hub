@@ -7,9 +7,8 @@ import "hardhat/console.sol";
 import "./TokenProxy.sol";
 
 contract Field is Ownable, ERC721URIStorage {
-    string public fieldImageURL;
     mapping(address => bool) public allowedContracts;
-    bool public allContractsAllowed;
+    address[] public allowedContractsArray;
     TokenProxy tokenProxy;
     uint256 public playerId;
     mapping(uint256 => uint256) playerIdToProxyId;
@@ -19,11 +18,9 @@ contract Field is Ownable, ERC721URIStorage {
     constructor(
         address _tokenProxy,
         string memory fieldName,
-        string memory fieldSymbol,
-        string memory _fieldImageURL
+        string memory fieldSymbol
     ) ERC721(fieldName, fieldSymbol) {
         tokenProxy = TokenProxy(_tokenProxy);
-        fieldImageURL = _fieldImageURL;
     }
 
     function setAllowedContract(address _contract, bool allowed)
@@ -31,10 +28,7 @@ contract Field is Ownable, ERC721URIStorage {
         onlyOwner
     {
         allowedContracts[_contract] = allowed;
-    }
-
-    function setAllContractsAllowed(bool allowed) public onlyOwner {
-        allContractsAllowed = allowed;
+        allowedContractsArray.push(_contract);
     }
 
     function mintPlayer(
@@ -47,7 +41,7 @@ contract Field is Ownable, ERC721URIStorage {
         require(msg.sender == proxyOwner, "only proxy owner");
         require(
             allowedContracts[originalContractAddress] == true ||
-                allContractsAllowed == true,
+                allowedContractsArray.length == 0,
             "player not allowed from this contract"
         );
         _mint(owner, playerId);
@@ -92,5 +86,13 @@ contract Field is Ownable, ERC721URIStorage {
         //     return proxyIdToPlayerId[_proxyId] > 0 ? true : false;
         // }
         return proxyIdToPlayerId[_proxyId] != 0 ? true : false;
+    }
+
+    function getAllowedContracts()
+        public
+        view
+        returns (address[] memory contracts)
+    {
+        return allowedContractsArray;
     }
 }
