@@ -63,14 +63,14 @@ function MenuBar({ web3Modal, logoutOfWeb3Modal, connectWallet }) {
                     </Grid>
                     <Grid item md={5}>
                         <Grid container spacing={24}>
-                            <Grid item md={2}>
-                                <Box mt={0.5} mr={1}>
-                                    <Button color="inherit" fullWidth component={Link} className={classes.button} to="/deposit">Deposit</Button>
+                            <Grid item md={3}>
+                                <Box mt={0.5} >
+                                    <Button color="inherit" fullWidth component={Link} className={classes.button} to="/deposits">NFT Deposits</Button>
                                 </Box>
                             </Grid>
                             <Grid item md={2}>
                                 <Box mt={0.5} mr={1}>
-                                    <Button color="inherit" fullWidth component={Link} className={classes.button} to="/proxies">Proxies</Button>
+                                    <Button color="inherit" fullWidth component={Link} className={classes.button} to="/proxies">NFT Proxies</Button>
                                 </Box>
                             </Grid>
                             <Grid item md={2}>
@@ -78,7 +78,7 @@ function MenuBar({ web3Modal, logoutOfWeb3Modal, connectWallet }) {
                                     <Button color="inherit" fullWidth component={Link} className={classes.button} to="/fields">Fields</Button>
                                 </Box>
                             </Grid>
-                            <Grid item md={2}>
+                            <Grid item md={1}>
                                 <Box mt={0.5} mr={1}>
                                     <Button color="inherit" fullWidth component={Link} className={classes.button} to="/games">Games</Button>
                                 </Box>

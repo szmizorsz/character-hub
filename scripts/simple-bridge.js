@@ -1,0 +1,84 @@
+const Web3 = require('web3');
+const Bridge = require('../src/contracts/Bridge.json');
+const TokenProxy = require('../src/contracts/TokenProxy.json');
+const fs = require('fs');
+
+require('dotenv').config()
+
+const provider = new Web3.providers.HttpProvider("http://localhost:8545");
+const web3Local = new Web3(provider);
+
+// const infuraKey = fs.readFileSync("../../.infura_key").toString().trim();
+// const web3Matic = new Web3(`https://polygon-mumbai.infura.io/v3/` + infuraKey);
+
+const adminPrivKey = process.env.ADMIN_KEY;
+const { address: admin } = web3Local.eth.accounts.wallet.add(adminPrivKey);
+//web3Matic.eth.accounts.wallet.add(adminPrivKey);
+
+const bridge = new web3Local.eth.Contract(
+    Bridge.abi,
+    Bridge.address
+);
+const tokenProxy = new web3Local.eth.Contract(
+    TokenProxy.abi,
+    TokenProxy.address
+);
+
+const pollLocal = async (blockHeight) => {
+    let lastProcessedLocalBlockHeight = fs.readFileSync("/Users/szabolcs/Documents/Personal/Szakmai/Ethereum/hack-preparation/scripts/.last_processed_local_block_number").toString().trim();
+    console.log("Chain poll starts from block: " + lastProcessedLocalBlockHeight);
+    console.log("Current block number: " + blockHeight);
+    const transferEvents = await bridge.getPastEvents(
+        'TokenDeposit',
+        { fromBlock: lastProcessedLocalBlockHeight, step: 0 }
+    );
+    for (transferEvent of transferEvents) {
+        const { id, contractAddress, tokenId, owner, tokenURI, withLocking } = transferEvent.returnValues;
+        console.log(`
+            Deposit event from Ethereum to process:
+            - bridgeId ${id} 
+            - Original contract address ${contractAddress} 
+            - Original token Id ${tokenId}
+            - Owner ${owner}
+            - TokenURI ${tokenURI}
+            - WithLocking ${withLocking}
+          `);
+        const tx = tokenProxy.methods.mintProxy(id, contractAddress, tokenId, owner, tokenURI, withLocking);
+        const [gasPrice, gasCost] = await Promise.all([
+            web3Local.eth.getGasPrice(),
+            tx.estimateGas({ from: admin }),
+        ]);
+        gasPriceIncreased = 1.1 * gasPrice;
+        const data = tx.encodeABI();
+        const txData = {
+            from: admin,
+            to: TokenProxy.address,
+            data,
+            gas: gasCost,
+            gasPriceIncreased
+        };
+        web3Local.eth.sendTransaction(txData)
+            .on('receipt', function (receipt) {
+                console.log(`Transaction hash sent: ${receipt.transactionHash}`);
+            })
+            .on('error', function (error) {
+                console.log("Transaction error: " + error);
+            });
+    }
+    lastProcessedBlockHeight = blockHeight + 1;
+    fs.writeFile("/Users/szabolcs/Documents/Personal/Szakmai/Ethereum/hack-preparation/scripts/.last_processed_local_block_number", lastProcessedBlockHeight.toString(), err => {
+        if (err) {
+            console.error(err)
+            return
+        }
+    })
+}
+
+setInterval(() => {
+    web3Local.eth.getBlockNumber().then(blockNumber => {
+        pollLocal(blockNumber);
+    })
+        .catch(error => console.log(error.message));
+}, 30000);
+
+
