@@ -13,6 +13,11 @@ async function main() {
     // manually to make sure everything is compiled
     // await hre.run('compile');
 
+    [account1, account2, account3] = await ethers.getSigners();
+    console.log(account1.address)
+    console.log(account2.address)
+    console.log(account3.address)
+
     // We get the contract to deploy
     const TokenProxy = await hre.ethers.getContractFactory("TokenProxy");
     const tokenProxy = await TokenProxy.deploy();

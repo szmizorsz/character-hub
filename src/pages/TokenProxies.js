@@ -120,8 +120,8 @@ const TokenProxies = ({ injectedProvider }) => {
             <div className={classes.root}>
                 <div >
                     <AntTabs value={value} onChange={handleChange} aria-label="ant example">
-                        <AntTab label="All NFTs" />
-                        <AntTab label="My NFTs" />
+                        <AntTab label="All NFT proxies" />
+                        <AntTab label="My NFT proxies" />
                     </AntTabs>
                     <Typography className={classes.padding} />
                 </div>
