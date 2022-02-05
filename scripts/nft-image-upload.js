@@ -62,7 +62,7 @@ async function metaDataGeneration() {
         const image = "https://gateway.ipfs.io/ipfs/" + ipfsImage.path;
         const metaData = {
             "name": "Orc #2128",
-            "description": "Orc with helmet and flag",
+            "description": "Orc with helmet and sword",
             "image": image
         }
         const file = await ipfs.add(Buffer.from(JSON.stringify(metaData)));
@@ -88,7 +88,7 @@ async function metaDataGeneration() {
         const image = "https://gateway.ipfs.io/ipfs/" + ipfsImage.path;
         const metaData = {
             "name": "Orc #4346",
-            "description": "Orc with bow",
+            "description": "Orc with flag",
             "image": image
         }
         const file = await ipfs.add(Buffer.from(JSON.stringify(metaData)));

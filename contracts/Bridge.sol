@@ -12,6 +12,7 @@ contract Bridge is Ownable, ERC721Holder {
         uint256 tokenId;
         address owner;
         bool withLocking;
+        string tokenURI;
     }
 
     uint256 public id;
@@ -34,14 +35,15 @@ contract Bridge is Ownable, ERC721Holder {
         ERC721 erc721Contract = ERC721(_contractAddress);
         require(erc721Contract.ownerOf((_tokenId)) == msg.sender, "only owner");
 
+        string memory tokenURI = erc721Contract.tokenURI(_tokenId);
+
         Token memory token;
         token.contractAddress = _contractAddress;
         token.tokenId = _tokenId;
         token.owner = msg.sender;
         token.withLocking = withLocking;
+        token.tokenURI = tokenURI;
         allDepositsById[id] = token;
-
-        string memory tokenURI = erc721Contract.tokenURI(_tokenId);
 
         if (withLocking) {
             erc721Contract.safeTransferFrom(

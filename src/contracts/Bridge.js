@@ -92,6 +92,11 @@ export const BRIDGE = {
                     "internalType": "bool",
                     "name": "withLocking",
                     "type": "bool"
+                },
+                {
+                    "internalType": "string",
+                    "name": "tokenURI",
+                    "type": "string"
                 }
             ],
             "stateMutability": "view",

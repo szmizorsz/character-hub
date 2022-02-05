@@ -19,7 +19,7 @@ const DepositNftDialog = ({ injectedProvider, nftDepositDialogOpen, setNftDeposi
     const [withLocking, setWithLocking] = React.useState('true');
 
     const handleSubmit = async () => {
-        debugger
+        //debugger
         const signer = await injectedProvider.getSigner();
         const bridgeContract = new ethers.Contract(BRIDGE.ADDRESS, BRIDGE.ABI, signer)
 
@@ -75,8 +75,8 @@ const DepositNftDialog = ({ injectedProvider, nftDepositDialogOpen, setNftDeposi
                     />
                     <FormControl component="fieldset">
                         <RadioGroup aria-label="gender" name="gender1" value={withLocking} onChange={handleRadioChange}>
-                            <FormControlLabel value="true" control={<Radio />} label="With locking on Ethereum (unique proxy)" />
-                            <FormControlLabel value="false" control={<Radio />} label="Without locking" />
+                            <FormControlLabel value="true" control={<Radio />} label="Unique proxy (With locking on Ethereum)" />
+                            <FormControlLabel value="false" control={<Radio />} label="Inflationary proxy (Without locking)" />
                         </RadioGroup>
                     </FormControl>
 

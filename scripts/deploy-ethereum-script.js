@@ -43,13 +43,13 @@ async function main() {
   await meralMock.mint(account2.address, 2);
   await meralMock.setTokenURI(2, meralMetaDataIpfsCIDs[2]);
 
-  await meralMock.mint(account1.address, 3);
+  await meralMock.mint(account2.address, 3);
   await meralMock.setTokenURI(3, meralMetaDataIpfsCIDs[3]);
 
   const orcMetaDataIpfsCIDs = [
-    "QmVT16XpzkiyonH5iJ3bRy67vzFyUcaX6qNT2XRsoNB814",
-    "QmfKwGZFfbcFSxwkMkRWwVVqYx8JdSTg9YDoytfQs69fyQ",
-    "QmSHqtMazpwrxcwdbg3wZS33KR26ECAz7vY6UbthhGTFfD"];
+    "Qme24aWZGmb1AmWKNyZS6yn48SShAF8oP6d7Pi1kgmz5Lq",
+    "QmbumFYQDfRAFzDrWgg6NvdRKiEPeunm1kvahFNm9JqvJ5",
+    "QmXXqvDtq3uwbdzpPSiTQ61Y7TqMgDnHao6SFkLBLo5D4Z"];
 
   const orcMock = await ERC721Mock.deploy();
   await orcMock.deployed();
@@ -63,6 +63,7 @@ async function main() {
 
   await orcMock.mint(account2.address, 2);
   await orcMock.setTokenURI(2, orcMetaDataIpfsCIDs[2]);
+
 }
 
 // We recommend this pattern to be able to use async/await everywhere
