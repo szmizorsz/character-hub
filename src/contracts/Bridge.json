@@ -58,6 +58,12 @@
           "internalType": "bool",
           "name": "withLocking",
           "type": "bool"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "nonce",
+          "type": "uint256"
         }
       ],
       "name": "TokenDeposit",
@@ -128,6 +134,19 @@
     {
       "inputs": [],
       "name": "id",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "nonce",
       "outputs": [
         {
           "internalType": "uint256",

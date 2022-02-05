@@ -20,7 +20,8 @@ describe("Proxy test", function () {
     it("Should mint proxy", async function () {
         let bridgeId = 0;
         let withLocking = true;
-        await expect(tokenProxy.mintProxy(bridgeId, originalContractAddress, originalTokenId, nftOwner.address, tokenURI, withLocking))
+        let nonce = 0;
+        await expect(tokenProxy.mintProxy(bridgeId, originalContractAddress, originalTokenId, nftOwner.address, tokenURI, withLocking, nonce))
             .to.emit(tokenProxy, 'ProxyCreated')
             .withArgs(0, originalContractAddress, originalTokenId, nftOwner.address, tokenURI, withLocking);
 

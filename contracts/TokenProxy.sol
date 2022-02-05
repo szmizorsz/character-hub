@@ -14,6 +14,7 @@ contract TokenProxy is Ownable, ERC721URIStorage {
 
     mapping(uint256 => Token) public allProxiesById;
     uint256 public nrOfProxies;
+    mapping(uint256 => bool) public processedNonces;
 
     event ProxyCreated(
         uint256 id,
@@ -32,8 +33,11 @@ contract TokenProxy is Ownable, ERC721URIStorage {
         uint256 originalTokenId,
         address owner,
         string memory tokenURI,
-        bool withLocking
+        bool withLocking,
+        uint256 nonce
     ) public onlyOwner {
+        require(processedNonces[nonce] == false, "transfer already processed");
+        processedNonces[nonce] = true;
         _mint(owner, bridgeId);
         Token memory token;
         token.originalContractAddress = originalContractAddress;

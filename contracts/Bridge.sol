@@ -17,6 +17,7 @@ contract Bridge is Ownable, ERC721Holder {
 
     uint256 public id;
     mapping(uint256 => Token) public allDepositsById;
+    uint256 public nonce;
 
     event TokenDeposit(
         uint256 id,
@@ -24,7 +25,8 @@ contract Bridge is Ownable, ERC721Holder {
         uint256 tokenId,
         address owner,
         string tokenURI,
-        bool withLocking
+        bool withLocking,
+        uint256 nonce
     );
 
     function deposit(
@@ -59,8 +61,10 @@ contract Bridge is Ownable, ERC721Holder {
             _tokenId,
             msg.sender,
             tokenURI,
-            withLocking
+            withLocking,
+            nonce
         );
         id++;
+        nonce++;
     }
 }

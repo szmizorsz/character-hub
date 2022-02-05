@@ -25,16 +25,19 @@ const tokenProxy = new web3Local.eth.Contract(
 );
 
 const pollLocal = async (blockHeight) => {
-    let lastProcessedLocalBlockHeight = fs.readFileSync("/Users/szabolcs/Documents/Personal/Szakmai/Ethereum/hack-preparation/scripts/.last_processed_local_block_number").toString().trim();
+    let lastProcessedLocalBlockHeight = fs.readFileSync("/Users/szabolcs/Documents/Personal/Szakmai/Ethereum/character-hub/scripts/.last_processed_local_block_number").toString().trim();
+    let lastProcessedLocalNonce = fs.readFileSync("/Users/szabolcs/Documents/Personal/Szakmai/Ethereum/character-hub/scripts/.last_processed_local_nonce").toString().trim();
     console.log("Chain poll starts from block: " + lastProcessedLocalBlockHeight);
     console.log("Current block number: " + blockHeight);
+    console.log("Last processed nonce: " + lastProcessedLocalNonce);
     const transferEvents = await bridge.getPastEvents(
         'TokenDeposit',
         { fromBlock: lastProcessedLocalBlockHeight, step: 0 }
     );
     for (transferEvent of transferEvents) {
-        const { id, contractAddress, tokenId, owner, tokenURI, withLocking } = transferEvent.returnValues;
-        console.log(`
+        const { id, contractAddress, tokenId, owner, tokenURI, withLocking, nonce } = transferEvent.returnValues;
+        if (nonce > lastProcessedLocalNonce) {
+            console.log(`
             Deposit event from Ethereum to process:
             - bridgeId ${id} 
             - Original contract address ${contractAddress} 
@@ -42,31 +45,40 @@ const pollLocal = async (blockHeight) => {
             - Owner ${owner}
             - TokenURI ${tokenURI}
             - WithLocking ${withLocking}
+            - Nonce ${nonce}
           `);
-        const tx = tokenProxy.methods.mintProxy(id, contractAddress, tokenId, owner, tokenURI, withLocking);
-        const [gasPrice, gasCost] = await Promise.all([
-            web3Local.eth.getGasPrice(),
-            tx.estimateGas({ from: admin }),
-        ]);
-        gasPriceIncreased = 1.1 * gasPrice;
-        const data = tx.encodeABI();
-        const txData = {
-            from: admin,
-            to: TokenProxy.address,
-            data,
-            gas: gasCost,
-            gasPriceIncreased
-        };
-        web3Local.eth.sendTransaction(txData)
-            .on('receipt', function (receipt) {
-                console.log(`Transaction hash sent: ${receipt.transactionHash}`);
+            const tx = tokenProxy.methods.mintProxy(id, contractAddress, tokenId, owner, tokenURI, withLocking, nonce);
+            const [gasPrice, gasCost] = await Promise.all([
+                web3Local.eth.getGasPrice(),
+                tx.estimateGas({ from: admin }),
+            ]);
+            gasPriceIncreased = 1.1 * gasPrice;
+            const data = tx.encodeABI();
+            const txData = {
+                from: admin,
+                to: TokenProxy.address,
+                data,
+                gas: gasCost,
+                gasPriceIncreased
+            };
+            web3Local.eth.sendTransaction(txData)
+                .on('receipt', function (receipt) {
+                    console.log(`Transaction hash sent: ${receipt.transactionHash}`);
+                })
+                .on('error', function (error) {
+                    console.log("Transaction error: " + error);
+                });
+            lastProcessedLocalNonce = nonce;
+            fs.writeFile("/Users/szabolcs/Documents/Personal/Szakmai/Ethereum/character-hub/scripts/.last_processed_local_nonce", lastProcessedLocalNonce.toString(), err => {
+                if (err) {
+                    console.error(err)
+                    return
+                }
             })
-            .on('error', function (error) {
-                console.log("Transaction error: " + error);
-            });
+        }
     }
-    lastProcessedBlockHeight = blockHeight + 1;
-    fs.writeFile("/Users/szabolcs/Documents/Personal/Szakmai/Ethereum/hack-preparation/scripts/.last_processed_local_block_number", lastProcessedBlockHeight.toString(), err => {
+    lastProcessedBlockHeight = blockHeight;
+    fs.writeFile("/Users/szabolcs/Documents/Personal/Szakmai/Ethereum/character-hub/scripts/.last_processed_local_block_number", lastProcessedBlockHeight.toString(), err => {
         if (err) {
             console.error(err)
             return
@@ -79,6 +91,6 @@ setInterval(() => {
         pollLocal(blockNumber);
     })
         .catch(error => console.log(error.message));
-}, 30000);
+}, 10000);
 
 
