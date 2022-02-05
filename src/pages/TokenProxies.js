@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Button } from '@material-ui/core';
+import React from 'react';
 import { Box } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import DepositNftDialog from '../components/DepositNftDialog';
-import AllNFTs from '../components/AllNFTs';
 import useNftsFromProxy from '../hooks/LoadNftsFromProxy';
+import ProxyCards from '../components/ProxyCards';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -82,7 +79,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TokenProxies = ({ injectedProvider }) => {
-    const [nftDepositDialogOpen, setNftDepositDialogOpen] = useState(false);
     const [nftList, ownNftList] = useNftsFromProxy(injectedProvider);
 
     const classes = useStyles();
@@ -109,7 +105,7 @@ const TokenProxies = ({ injectedProvider }) => {
         return (
             <Box mt={10}>
                 <div>
-                    Loading... please, make sure to connect your wallet and select the relevant ehtereum network!
+                    Loading... please, make sure to connect your wallet and select the matic mumbai network!
                 </div>
             </Box>
         )
@@ -127,10 +123,10 @@ const TokenProxies = ({ injectedProvider }) => {
                 </div>
             </div>
             <TabPanel value={value} index={0}>
-                <AllNFTs injectedProvider={injectedProvider} nftList={nftList} />
+                <ProxyCards nftList={nftList} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <AllNFTs injectedProvider={injectedProvider} nftList={ownNftList} />
+                <ProxyCards nftList={ownNftList} />
             </TabPanel>
         </>
     )
