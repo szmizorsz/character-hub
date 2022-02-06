@@ -1,5 +1,5 @@
 export const FIELD_MANAGER = {
-    ADDRESS: '0x68B1D87F95878fE05B998F19b66F4baba5De1aed',
+    ADDRESS: '0x8C41791B286215136B598Be81487D260ABb34C26',
     ABI: [
         {
             "inputs": [

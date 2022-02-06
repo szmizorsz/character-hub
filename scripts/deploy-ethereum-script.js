@@ -26,8 +26,7 @@ async function main() {
   const meralMetaDataIpfsCIDs = [
     "QmPQ8xVwdNBEG9XSyCzFsca4QjPxtd3c1u9epu289W4tBK",
     "QmTeocEj1KrAyuuyAneM6Vxga7jNUXc8PbbehSZuQUFmjS",
-    "QmbudFyd3D2ivZFZuUPPvBki1DzXZBGfbBPu1RQB2yS3nS",
-    "QmU4deYmmoPEs1BiFxB36UB4ryDXoEfLdj3SPW6hHjWZsD"];
+    "QmbudFyd3D2ivZFZuUPPvBki1DzXZBGfbBPu1RQB2yS3nS"];
 
   const ERC721Mock = await hre.ethers.getContractFactory("ERC721Mock");
   const meralMock = await ERC721Mock.deploy();
@@ -37,19 +36,15 @@ async function main() {
   await meralMock.mint(account1.address, 0);
   await meralMock.setTokenURI(0, meralMetaDataIpfsCIDs[0]);
 
-  await meralMock.mint(account1.address, 1);
+  await meralMock.mint(account2.address, 1);
   await meralMock.setTokenURI(1, meralMetaDataIpfsCIDs[1]);
 
-  await meralMock.mint(account2.address, 2);
+  await meralMock.mint(account1.address, 2);
   await meralMock.setTokenURI(2, meralMetaDataIpfsCIDs[2]);
 
-  await meralMock.mint(account2.address, 3);
-  await meralMock.setTokenURI(3, meralMetaDataIpfsCIDs[3]);
-
   const orcMetaDataIpfsCIDs = [
-    "Qme24aWZGmb1AmWKNyZS6yn48SShAF8oP6d7Pi1kgmz5Lq",
-    "QmbumFYQDfRAFzDrWgg6NvdRKiEPeunm1kvahFNm9JqvJ5",
-    "QmXXqvDtq3uwbdzpPSiTQ61Y7TqMgDnHao6SFkLBLo5D4Z"];
+    "QmUaXjD9ZzVkjm8dPjZCSrBmz3dwJnYeWWUGoFg1965ETZ",
+    "QmYhdC3YLvZBRneCxtXiEkqt4HFKrdpLvrJPG1joRma5M8"];
 
   const orcMock = await ERC721Mock.deploy();
   await orcMock.deployed();
@@ -58,11 +53,8 @@ async function main() {
   await orcMock.mint(account1.address, 0);
   await orcMock.setTokenURI(0, orcMetaDataIpfsCIDs[0]);
 
-  await orcMock.mint(account1.address, 1);
+  await orcMock.mint(account2.address, 1);
   await orcMock.setTokenURI(1, orcMetaDataIpfsCIDs[1]);
-
-  await orcMock.mint(account2.address, 2);
-  await orcMock.setTokenURI(2, orcMetaDataIpfsCIDs[2]);
 
 }
 
