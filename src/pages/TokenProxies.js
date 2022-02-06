@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
@@ -6,7 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import useNftsFromProxy from '../hooks/LoadNftsFromProxy';
 import ProxyCards from '../components/ProxyCards';
-import useFields from '../hooks/LoadFields';
+import useFields from '../hooks/LoadFieldsHook';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -81,7 +81,8 @@ const useStyles = makeStyles((theme) => ({
 
 const TokenProxies = ({ injectedProvider }) => {
     const [nftList, ownNftList] = useNftsFromProxy(injectedProvider);
-    const fields = useFields(injectedProvider);
+    const [fields, setFields] = useState([]);
+    useFields(injectedProvider, setFields);
 
     const classes = useStyles();
     const [value, setValue] = React.useState(0);

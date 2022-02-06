@@ -7,8 +7,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { ethers } from "ethers";
 import { FIELD_MANAGER } from '../contracts/FieldManager';
+import loadFields from '../utils/LoadFields';
 
-const CreateFieldDialog = ({ injectedProvider, createFieldDialogOpen, setCreateFieldDialogOpen }) => {
+const CreateFieldDialog = ({ injectedProvider, createFieldDialogOpen, setCreateFieldDialogOpen, setFields }) => {
     const [name, setName] = React.useState('');
     const [symbol, setSymbol] = React.useState('');
 
@@ -17,7 +18,9 @@ const CreateFieldDialog = ({ injectedProvider, createFieldDialogOpen, setCreateF
         const signer = await injectedProvider.getSigner();
         const fieldManagerContract = new ethers.Contract(FIELD_MANAGER.ADDRESS, FIELD_MANAGER.ABI, signer)
 
-        await fieldManagerContract.createField(name, symbol);
+        const tx = await fieldManagerContract.createField(name, symbol);
+        await tx.wait();
+        await loadFields(injectedProvider, setFields);
 
         handleClose();
     };

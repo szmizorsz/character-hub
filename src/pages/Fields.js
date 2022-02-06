@@ -15,7 +15,6 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Grid from '@material-ui/core/Grid';
 import { Button } from '@material-ui/core/'
 import CreateFieldDialog from '../components/CreateFieldDialog';
-import useFields from '../hooks/LoadFields';
 import AddAllowedContractDialog from '../components/AddAllowedContractDialog';
 import PlayerCards from '../components/PlayerCards';
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -24,6 +23,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import useFields from '../hooks/LoadFieldsHook';
 
 const IconLeftAccordionSummary = withStyles({
     expandIcon: {
@@ -62,7 +62,7 @@ const allowedContractsValue = (allowedContracts) => {
     }
 }
 
-function Row({ injectedProvider, row }) {
+function Row({ injectedProvider, row, setFields }) {
     const [open, setOpen] = React.useState(false);
     const [allowedContractDialogOpen, setAllowedContractDialogOpen] = useState(false);
     const classes = useRowStyles();
@@ -135,7 +135,8 @@ function Row({ injectedProvider, row }) {
                     injectedProvider={injectedProvider}
                     fieldId={row.fieldId}
                     allowedContractDialogOpen={allowedContractDialogOpen}
-                    setAllowedContractDialogOpen={setAllowedContractDialogOpen} />
+                    setAllowedContractDialogOpen={setAllowedContractDialogOpen}
+                    setFields={setFields} />
             </TableRow>
         </React.Fragment>
     );
@@ -144,7 +145,8 @@ function Row({ injectedProvider, row }) {
 export default function Fields({ injectedProvider }) {
     const classes = useRowStyles();
     const [createFieldDialogOpen, setCreateFieldDialogOpen] = useState(false);
-    const fields = useFields(injectedProvider);
+    const [fields, setFields] = useState([]);
+    useFields(injectedProvider, setFields);
 
     return (
         <>
@@ -160,7 +162,8 @@ export default function Fields({ injectedProvider }) {
                             <Row
                                 injectedProvider={injectedProvider}
                                 key={row.id}
-                                row={row} />
+                                row={row}
+                                setFields={setFields} />
                         ))}
                     </TableBody>
                 </Table>
@@ -176,7 +179,8 @@ export default function Fields({ injectedProvider }) {
             <CreateFieldDialog
                 injectedProvider={injectedProvider}
                 createFieldDialogOpen={createFieldDialogOpen}
-                setCreateFieldDialogOpen={setCreateFieldDialogOpen} />
+                setCreateFieldDialogOpen={setCreateFieldDialogOpen}
+                setFields={setFields} />
         </>
     );
 }

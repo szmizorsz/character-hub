@@ -8,19 +8,22 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { ethers } from "ethers";
 import { FIELD_MANAGER } from '../contracts/FieldManager';
 import { FIELD } from '../contracts/Field';
+import loadFields from '../utils/LoadFields';
 
-const AddAllowedContractDialog = ({ injectedProvider, fieldId, allowedContractDialogOpen, setAllowedContractDialogOpen }) => {
+const AddAllowedContractDialog = ({ injectedProvider, fieldId, allowedContractDialogOpen, setAllowedContractDialogOpen, setFields }) => {
     const [contract, setContract] = React.useState('');
 
     const handleSubmit = async () => {
-        //debugger
+        debugger
         const signer = await injectedProvider.getSigner();
         const fieldManagerContract = new ethers.Contract(FIELD_MANAGER.ADDRESS, FIELD_MANAGER.ABI, signer)
 
         const fieldAddress = await fieldManagerContract.fields(fieldId);
         let fieldContract = new ethers.Contract(fieldAddress, FIELD.ABI, signer);
 
-        await fieldContract.setAllowedContract(contract, true);
+        const tx = await fieldContract.setAllowedContract(contract, true);
+        await tx.wait();
+        await loadFields(injectedProvider, setFields);
 
         handleClose();
     };

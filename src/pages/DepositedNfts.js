@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@material-ui/core';
 import { Box } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -83,7 +83,10 @@ const useStyles = makeStyles((theme) => ({
 
 const DepositedNfts = ({ injectedProvider }) => {
     const [nftDepositDialogOpen, setNftDepositDialogOpen] = useState(false);
-    const [nftList, ownNftList] = useNftsFromBridge(injectedProvider);
+    const [nftList, setNftList] = useState([]);
+    const [ownNftList, setOwnNftList] = useState([]);
+    useNftsFromBridge(injectedProvider, setNftList, setOwnNftList);
+    debugger
 
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
@@ -150,7 +153,9 @@ const DepositedNfts = ({ injectedProvider }) => {
             <DepositNftDialog
                 injectedProvider={injectedProvider}
                 nftDepositDialogOpen={nftDepositDialogOpen}
-                setNftDepositDialogOpen={setNftDepositDialogOpen} />
+                setNftDepositDialogOpen={setNftDepositDialogOpen}
+                setNftList={setNftList}
+                setOwnNftList={setOwnNftList} />
         </>
     )
 }

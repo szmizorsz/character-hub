@@ -12,14 +12,14 @@ import FormControl from '@material-ui/core/FormControl';
 import { ethers } from "ethers";
 import { BRIDGE } from '../contracts/Bridge';
 import { ERC721 } from '../contracts/ERC721';
+import loadNfts from '../utils/LoadNfts';
 
-const DepositNftDialog = ({ injectedProvider, nftDepositDialogOpen, setNftDepositDialogOpen }) => {
+const DepositNftDialog = ({ injectedProvider, nftDepositDialogOpen, setNftDepositDialogOpen, setNftList, setOwnNftList }) => {
     const [originalContract, setOriginalContract] = React.useState('');
     const [originalTokenId, setOriginalTokenId] = React.useState('');
     const [withLocking, setWithLocking] = React.useState('true');
 
     const handleSubmit = async () => {
-        //debugger
         const signer = await injectedProvider.getSigner();
         const bridgeContract = new ethers.Contract(BRIDGE.ADDRESS, BRIDGE.ABI, signer)
 
@@ -30,7 +30,9 @@ const DepositNftDialog = ({ injectedProvider, nftDepositDialogOpen, setNftDeposi
             await erc721Contract.approve(BRIDGE.ADDRESS, originalTokenId);
         }
 
-        await bridgeContract.deposit(originalContract, originalTokenId, withLockingBool);
+        const tx = await bridgeContract.deposit(originalContract, originalTokenId, withLockingBool);
+        await tx.wait();
+        await loadNfts(injectedProvider, setNftList, setOwnNftList);
 
         handleClose();
     };
