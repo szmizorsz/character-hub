@@ -13,6 +13,7 @@ import Home from './pages/Home.js';
 import Fields from './pages/Fields.js';
 import { ethers } from "ethers";
 import Web3Modal from "web3modal";
+import Games from './pages/Games.js';
 
 const web3Modal = new Web3Modal({
   // network: "mainnet", // optional
@@ -78,6 +79,17 @@ function App() {
                 <Grid item xs={12} md={8}>
                   <Box mt={10}>
                     <Fields injectedProvider={injectedProvider} />
+                  </Box>
+                </Grid>
+                <Grid item md={2}></Grid>
+              </Grid>
+            </Route>
+            <Route path="/games">
+              <Grid container>
+                <Grid item md={2}></Grid>
+                <Grid item xs={12} md={8}>
+                  <Box mt={10}>
+                    <Games />
                   </Box>
                 </Grid>
                 <Grid item md={2}></Grid>
