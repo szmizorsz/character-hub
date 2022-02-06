@@ -40,59 +40,65 @@ export default function Games() {
 
     return (
         <>
-            <Accordion>
-                <IconLeftAccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel2a-content"
-                    id="panel2a-header"
-                    style={{ border: 'none' }}
-                >
-                    <Box ml={3}><Typography className={classes.name}>Etherorcs attacks Ethemerals</Typography></Box>
-                </IconLeftAccordionSummary>
-                <AccordionDetails>
-                    <Grid container>
-                        <Grid item md={12}>
-                            <Box ml={10}><img src={banner} alt="Game banner" /></Box>
+            <Box mt={15}>
+                <Accordion>
+                    <IconLeftAccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel2a-content"
+                        id="panel2a-header"
+                        style={{ border: 'none' }}
+                    >
+                        <Box ml={3}><Typography className={classes.name}>Etherorcs attacks Ethemerals</Typography></Box>
+                    </IconLeftAccordionSummary>
+                    <AccordionDetails>
+                        <Grid container>
+                            <Grid item md={12}>
+                                <Box ml={10}><img src={banner} alt="Game banner" /></Box>
+                            </Grid>
+                            <Grid item md={12}>
+                                <Box ml={15}><Typography align="center">Interactive gameplay with parties of Orcs trying to attack the kingdom of Merals</Typography></Box>
+                            </Grid>
+                            <Grid item md={10}>
+                                <Box mt={5} ml={15}><Typography className={classes.field}>Built on field: Ethemerals and Etherorcs</Typography></Box>
+                            </Grid>
+                            <Grid item md={2}>
+                                <Box mt={5} ml={5}>
+                                    <Button
+                                        onClick={() => { }}
+                                        variant="contained"
+                                        type="submit">
+                                        Open game
+                                    </Button>
+                                </Box>
+                            </Grid>
                         </Grid>
-                        <Grid item md={12}>
-                            <Box ml={15}><Typography align="center">Interactive gameplay with parties of Orcs trying to attack the kingdom of Merals</Typography></Box>
-                        </Grid>
-                        <Grid item md={10}>
-                            <Box mt={5} ml={15}><Typography className={classes.field}>Built on field: Ethemerals and Etherorcs</Typography></Box>
-                        </Grid>
-                        <Grid item md={2}>
-                            <Box mt={5} ml={5}>
-                                <Button
-                                    onClick={() => { }}
-                                    variant="contained"
-                                    type="submit">
-                                    Open game
-                                </Button>
-                            </Box>
-                        </Grid>
-                    </Grid>
-                </AccordionDetails>
-            </Accordion>
-            <Accordion>
-                <IconLeftAccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel2a-content"
-                    id="panel2a-header"
-                    style={{ border: 'none' }}
-                >
-                    <Box ml={3}><Typography className={classes.name}>Ethemerals build a new kingdom in the Wilds</Typography></Box>
-                </IconLeftAccordionSummary>
-            </Accordion>
-            <Accordion>
-                <IconLeftAccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel2a-content"
-                    id="panel2a-header"
-                    style={{ border: 'none' }}
-                >
-                    <Box ml={3}><Typography className={classes.name}>Ultimate battle of any character</Typography></Box>
-                </IconLeftAccordionSummary>
-            </Accordion>
+                    </AccordionDetails>
+                </Accordion>
+            </Box>
+            <Box mt={3}>
+                <Accordion>
+                    <IconLeftAccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel2a-content"
+                        id="panel2a-header"
+                        style={{ border: 'none' }}
+                    >
+                        <Box ml={3}><Typography className={classes.name}>Ethemerals build a new kingdom in the Wilds</Typography></Box>
+                    </IconLeftAccordionSummary>
+                </Accordion>
+            </Box>
+            <Box mt={3}>
+                <Accordion>
+                    <IconLeftAccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel2a-content"
+                        id="panel2a-header"
+                        style={{ border: 'none' }}
+                    >
+                        <Box ml={3}><Typography className={classes.name}>Ultimate battle of any character</Typography></Box>
+                    </IconLeftAccordionSummary>
+                </Accordion>
+            </Box>
         </>
     );
 }

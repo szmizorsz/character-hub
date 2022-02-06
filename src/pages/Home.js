@@ -17,7 +17,7 @@ const Home = () => {
                 </Typography>
             </Box>
             <Box mt={2} display="flex" justifyContent="center">
-                <img src={banner} alt="NFT Fractions DEX" />
+                <img src={banner} alt="Home banner" />
             </Box>
         </>
     )
