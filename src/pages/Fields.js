@@ -17,6 +17,28 @@ import { Button } from '@material-ui/core/'
 import CreateFieldDialog from '../components/CreateFieldDialog';
 import useFields from '../hooks/LoadFields';
 import AddAllowedContractDialog from '../components/AddAllowedContractDialog';
+import PlayerCards from '../components/PlayerCards';
+import withStyles from "@material-ui/core/styles/withStyles";
+import MuiAccordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+const IconLeftAccordionSummary = withStyles({
+    expandIcon: {
+        order: -1
+    }
+})(AccordionSummary);
+
+const Accordion = withStyles({
+    root: {
+        border: 'none',
+        boxShadow: 'none',
+
+    },
+    expanded: {},
+})(MuiAccordion);
 
 const useRowStyles = makeStyles({
     root: {
@@ -63,9 +85,14 @@ function Row({ injectedProvider, row }) {
                         <Box margin={1}>
                             <Grid container className={classes.root}>
                                 <Grid md={2}></Grid>
-                                <Grid item xs={12} md={10}>
+                                <Grid item xs={12} md={3}>
                                     <Box>
                                         <TextField InputProps={{ disableUnderline: true }} label="Symbol" fullWidth value={row.symbol || ''} margin="dense" />
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={12} md={7}>
+                                    <Box>
+                                        <TextField InputProps={{ disableUnderline: true }} label="Address" fullWidth value={row.address || ''} margin="dense" />
                                     </Box>
                                 </Grid>
                                 <Grid md={2}></Grid>
@@ -83,6 +110,22 @@ function Row({ injectedProvider, row }) {
                                     <Box ml={2}>
                                         <TextField InputProps={{ disableUnderline: true }} label="Allowed contracts" fullWidth value={allowedContractsValue(row.allowedContracts) || ''} margin="dense" />
                                     </Box>
+                                </Grid>
+                                <Grid md={2}></Grid>
+                                <Grid item xs={12} md={10}>
+                                    <Accordion>
+                                        <IconLeftAccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel2a-content"
+                                            id="panel2a-header"
+                                            style={{ border: 'none' }}
+                                        >
+                                            <Box ml={3}><Typography>Players on the field</Typography></Box>
+                                        </IconLeftAccordionSummary>
+                                        <AccordionDetails>
+                                            <PlayerCards fieldId={row.fieldId} injectedProvider={injectedProvider} />
+                                        </AccordionDetails>
+                                    </Accordion>
                                 </Grid>
                             </Grid>
                         </Box>

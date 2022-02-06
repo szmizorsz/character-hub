@@ -18,11 +18,12 @@ export default function useFields(injectedProvider) {
                 let fieldContract = new ethers.Contract(fieldAddress, FIELD.ABI, signer);
 
                 let field = {};
+                field.address = fieldAddress;
                 field.fieldId = fieldId;
                 field.name = await fieldContract.name();
                 field.symbol = await fieldContract.symbol();
                 field.allowedContracts = await fieldContract.getAllowedContracts();
-
+                debugger
                 fieldsFromContract.push(field);
             }
             debugger

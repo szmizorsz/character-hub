@@ -33,7 +33,7 @@ const SellDialog = ({ sellDialogOpen, setSellDialogOpen }) => {
                     <FormControl component="fieldset">
                         <RadioGroup aria-label="sellOption" name="sellOption" value={sellOption} onChange={handleRadioChange}>
                             <FormControlLabel value="onlyProxy" control={<Radio />} label="Only proxy" />
-                            <FormControlLabel value="package" control={<Radio />} label="Proxy and the original NFT in package" />
+                            <FormControlLabel value="package" control={<Radio />} label="Proxy and the original NFT in package (for unique proxies only)" />
                         </RadioGroup>
                     </FormControl>
                     <TextField

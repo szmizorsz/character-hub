@@ -6,6 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import useNftsFromProxy from '../hooks/LoadNftsFromProxy';
 import ProxyCards from '../components/ProxyCards';
+import useFields from '../hooks/LoadFields';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -80,6 +81,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TokenProxies = ({ injectedProvider }) => {
     const [nftList, ownNftList] = useNftsFromProxy(injectedProvider);
+    const fields = useFields(injectedProvider);
 
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
@@ -123,10 +125,10 @@ const TokenProxies = ({ injectedProvider }) => {
                 </div>
             </div>
             <TabPanel value={value} index={0}>
-                <ProxyCards nftList={nftList} />
+                <ProxyCards nftList={nftList} injectedProvider={injectedProvider} fields={fields} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <ProxyCards nftList={ownNftList} />
+                <ProxyCards nftList={ownNftList} injectedProvider={injectedProvider} fields={fields} />
             </TabPanel>
         </>
     )

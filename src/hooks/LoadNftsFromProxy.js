@@ -28,12 +28,14 @@ export default function useNftsFromProxy(injectedProvider) {
                     }
                     nftMetadataFromIPFS = JSON.parse(content.toString());
                 }
-                //nftMetadataFromIPFS.bridgeId = tokenId;
+                nftMetadataFromIPFS.proxyId = tokenId;
                 nftMetadataFromIPFS.originalContract = proxy.originalContractAddress;
                 nftMetadataFromIPFS.owner = proxy.owner;
                 nftMetadataFromIPFS.withLocking = proxy.withLocking;
+                nftMetadataFromIPFS.tokenURI = tokenURI;
                 nftsFromIpfs.push(nftMetadataFromIPFS);
             }
+            debugger
             setNftList(nftsFromIpfs);
             const account = await injectedProvider.getSigner().getAddress();
             const ownNfts = nftsFromIpfs.filter(item => item.owner === account);

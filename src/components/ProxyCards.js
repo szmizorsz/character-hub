@@ -13,6 +13,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { Button } from '@material-ui/core';
 import WithdrawProxyDialog from './WithdrawProxyDialog';
 import SellDialog from './SellDialog';
+import ProxyFieldsDialog from './ProxyFieldsDialog';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -37,9 +38,8 @@ const uniqueIconDisplay = (withLocking) => {
     }
 }
 
-const ProxyCards = ({ nftList }) => {
+const ProxyCards = ({ nftList, injectedProvider, fields }) => {
     const classes = useStyles();
-    const [fieldsDialogOpen, setFieldsDialogOpen] = useState(false);
     const [withdrawProxyDialogOpen, setWithdrawProxyDialogOpen] = useState(false);
     const [sellDialogOpen, setSellDialogOpen] = useState(false);
 
@@ -66,12 +66,10 @@ const ProxyCards = ({ nftList }) => {
                                     {uniqueIconDisplay(row.withLocking)}
                                 </Box>
                                 <Box ml={20}>
-                                    <Button
-                                        onClick={() => { setFieldsDialogOpen(true) }}
-                                        variant="outlined"
-                                        type="submit">
-                                        Fields
-                                    </Button>
+                                    <ProxyFieldsDialog
+                                        proxy={row}
+                                        fields={fields}
+                                        injectedProvider={injectedProvider} />
                                 </Box>
                                 <Box>
                                     <Button
