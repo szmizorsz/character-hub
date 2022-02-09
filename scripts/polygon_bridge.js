@@ -5,7 +5,7 @@ const fs = require('fs');
 
 require('dotenv').config()
 
-const provider = new Web3.providers.HttpProvider("http://localhost:8545");
+const provider = new Web3.providers.HttpProvider(process.env.ROPSTEN_URL);
 const web3Local = new Web3(provider);
 
 const providerMumbai = new Web3.providers.HttpProvider(process.env.MUMBAI_URL);
@@ -87,6 +87,7 @@ const pollLocal = async (blockHeight) => {
 
 setInterval(() => {
     web3Local.eth.getBlockNumber().then(blockNumber => {
+        console.log(blockNumber)
         pollLocal(blockNumber);
     })
         .catch(error => console.log(error.message));

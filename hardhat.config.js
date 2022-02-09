@@ -26,6 +26,14 @@ module.exports = {
         mnemonic: process.env.MNEMONIC
       }
     },
+    ropsten: {
+      url: process.env.ROPSTEN_URL,
+      accounts: {
+        mnemonic: process.env.MNEMONIC
+      },
+      gas: 2100000,
+      gasPrice: 8000000000
+    },
     localhost: {
       url: 'http://127.0.0.1:8545'
     },

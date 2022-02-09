@@ -14,12 +14,12 @@ async function main() {
     // await hre.run('compile');
 
     // We get the contract to deploy
-    const Bridge = await hre.ethers.getContractFactory("Bridge");
-    const bridge = await Bridge.deploy();
-
-    await bridge.deployed();
-
-    console.log("Bridge deployed to:", bridge.address);
+    /*     const Bridge = await hre.ethers.getContractFactory("Bridge");
+        const bridge = await Bridge.deploy();
+    
+        await bridge.deployed();
+    
+        console.log("Bridge deployed to:", bridge.address); */
 
     [account1, account2, account3] = await ethers.getSigners();
     console.log(account1.address)
@@ -35,18 +35,18 @@ async function main() {
     const nftOwner2 = "0xC0F3b367AF79DEd43dBFd8e7026c1b1Db58D7b87";
 
     const ERC721Mock = await hre.ethers.getContractFactory("ERC721Mock");
-    const meralMock = await ERC721Mock.deploy();
-    await meralMock.deployed();
-    console.log("Meral mock deployed to:", meralMock.address);
-
-    await meralMock.mint(nftOwner1, 0);
-    await meralMock.setTokenURI(0, meralMetaDataIpfsCIDs[0]);
-
-    await meralMock.mint(nftOwner2, 1);
-    await meralMock.setTokenURI(1, meralMetaDataIpfsCIDs[1]);
-
-    await meralMock.mint(nftOwner1, 2);
-    await meralMock.setTokenURI(2, meralMetaDataIpfsCIDs[2]);
+    /*     const meralMock = await ERC721Mock.deploy();
+        await meralMock.deployed();
+        console.log("Meral mock deployed to:", meralMock.address);
+    
+        await meralMock.mint(nftOwner1, 0);
+        await meralMock.setTokenURI(0, meralMetaDataIpfsCIDs[0]);
+    
+        await meralMock.mint(nftOwner2, 1);
+        await meralMock.setTokenURI(1, meralMetaDataIpfsCIDs[1]);
+    
+        await meralMock.mint(nftOwner1, 2);
+        await meralMock.setTokenURI(2, meralMetaDataIpfsCIDs[2]); */
 
     const orcMetaDataIpfsCIDs = [
         "QmUaXjD9ZzVkjm8dPjZCSrBmz3dwJnYeWWUGoFg1965ETZ",

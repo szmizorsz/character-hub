@@ -1,5 +1,5 @@
 export const MERAL_MOCK = {
-    ADDRESS: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
+    ADDRESS: '0x82077b1EE51C6ee3173645e72037Cf67afFd9834',
     ABI: [
         {
             "inputs": [],
